@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<h1 id="godocs">$go Docs</h1>
+
+<ol>
+<li><a href="">Instantiation</a></li>
+<li><a href="">Options</a></li>
+<li><a href="">Built-in Methods</a></li>
+<li><a href="">Extend $go</a></li>
+<li><a href="">Method Reference</a></li>
+</ol>
+
+<h2 id="instantiation">Instantiation</h2>
+
+<p><span class="math">\(go instantiates itself on script load so instead of calling `$go()` you simply call `$go.method()`. This was a design choice more than anything. I wanted to keep things inline with how you call `\)</span>.ajax()`. Below are some defaults of the $go object.</p>
+
+<p><strong>By default:</strong></p>
+
+<ol>
+<li>All results are returned in JSON</li>
+<li>The Base Url is set to: <code>_spPageContextInfo.webAbsoluteUrl</code></li>
+</ol>
+
+<h2 id="options">Options</h2>
+
+<p>$go allows you to override some of these default options by providing an object literal to the <code>$go.opts()</code> method. Currently $go only has one option and that is &#8216;returnType&#8217;, but the options object can also be used to store options for plugins or custom functions.</p>
+
+<p><strong>Important!</strong> When using <code>$go.opts()</code> you are asking $go to take your options object and return a new instance using those options. To use this object more than once you must store a reference to that object in a variable. </p>
+
+<p><strong>Correct Usage</strong>
+```javascript
+// Create options object
+var options = {
+ returnType: &#8216;XML&#8217; //instead of JSON, why you would do this idk
+};</p>
+
+<p>// Pass in options object and store in variable
+var spxml = $go.opts(options);</p>
+
+<p>// Now when you want XML results simply call
+spxml.method();</p>
+
+<p>```</p>
+
+<p><strong>Incorrect Usage</strong>
+```javascript
+// Create options object
+var options = {
+ returnType: &#8216;XML&#8217; //instead of JSON
+};</p>
+
+<p>// Pass in options object
+$go.opts(options);</p>
+
+<p>// This is calling the default $go object without your options
+$go.get();</p>
+
+<p>```</p>
+
+<h2 id="built-inmethods">Built-in Methods</h2>
+
+<p>Below is a quick description of each of the built-in methods.</p>
+
+<h3 id="aquicknoteonurls">A quick note on url&#8217;s</h3>
+
+<p>url&#8217;s are handled in two ways by $go. The logic is very simple. Let&#8217;s use a simple GET request as an example. If you are trying to retrieve data from the current site you can simply pass in the endpoint url. (Ex. &#8220;/_api/web/lists/&#8221;) However if you need to retrieve data from another location use the full url. (Ex. &#8220;http://site.com/_api/web/lists/&#8221;). Easy stuff. I do have jsonp support built into this library as well but keep in mind configuration may be needed on your end to make that work.</p>
+
+<h3 id="go.get">$go.get()</h3>
+
+<p>The $go.get method is well&#8230;a method to go get stuff from SharePoint. There are a couple of ways you are allowed to use the get() method. Parameters can either be passed in individually, or as an object literal.</p>
+
+<p><strong>Accepted Params:</strong></p>
+
+<ul>
+<li>url</li>
+<li>header - (optional) if another header type is needed you can pass it in or just extend the one currently being used</li>
+<li>jsonp - (optional) Bool that will use JSONP</li>
+</ul>
+
+<pre><code class="javascript">// Pass params in individually
+$go.get(url)
+.done(function(data){
+  // Logic goes here
+});
+
+// or pass in as object literal
+$go.get({
+  url: 'url',
+  header: 'header'
+})
+.done(function(data){
+  // Logic goes here
+});
+</code></pre>
+
+<h3 id="go.post">$go.post()</h3>
+
+<p>The $go.post() method is used to push data back up to SharePoint. With a POST, parameters are passed as an object literal. For most operations the data field is required however because of the flexability of the library I have listed it as optional. </p>
+
+<p><strong>Accepted Params:</strong></p>
+
+<ul>
+<li>url</li>
+<li>data - (optional) Data Object must be in correct format</li>
+<li>header - (optional) if another header type is needed you can pass it in or just extend the one currently being used</li>
+<li>jsonp - (optional) Bool that will use JSONP</li>
+</ul>
+
+<pre><code class="javascript">$go.post({
+  url: 'url',
+  header: 'header',
+  data: 'data'
+})
+.done(function(data){
+  // Logic goes here
+});
+</code></pre>
+
+<h3 id="go.mergeandgo.put">$go.merge() and $go.put()</h3>
+
+<p>The $go.merge() method is used to update items within SharePoint. Merge allows you to only update the fields that have changed in that item. A PUT will overwrite the entire list item, so use with caution. With MERGE and PUT, parameters are passed as an object literal. In the demo, an asterisk to the ifMatch. This was for illustration only, if an eTag has not been passed an asterisk is implied. </p>
+
+<p><strong>Accepted Params:</strong></p>
+
+<ul>
+<li>url</li>
+<li>data - Data Object must be in correct format</li>
+<li>header - (optional) if another header type is needed you can pass it in or just extend the one currently being used</li>
+<li>ifMatch - (optional) If no eTag is passed in, $go defaults to &#8220;*&#8221;</li>
+<li>jsonp - (optional) Bool that will use JSONP</li>
+</ul>
+
+<pre><code class="javascript">// MERGE
+$go.merge({
+  url: 'url',
+  header: 'header',
+  data: 'data',
+  ifMatch: '*' 
+})
+.done(function(data){
+  // Logic goes here
+});
+
+// PUT
+$go.put({
+  url: 'url',
+  header: 'header',
+  data: 'data',
+  ifMatch: '*' 
+})
+.done(function(data){
+  // Logic goes here
+});
+</code></pre>
+
+<h3 id="go.remove">$go.remove()</h3>
+
+<p>The $go.remove() method is basically the delete method. If you need to remove items from SharePoint this is your method. With Remove, parameters are passed as an object literal. This method is basically an empty slate. I have the header set for delete and i basically stepped out of the way and allowed for customizations on every property. I didnt want to try and predict every instance of it&#8217;s use. </p>
+
+<p><strong>Accepted Params:</strong></p>
+
+<ul>
+<li>url</li>
+<li>data - (optional) Data Object must be in correct format</li>
+<li>header - (optional) if another header type is needed you can pass it in or just extend the one currently being used</li>
+<li>ifMatch - (optional) If no eTag is passed in, $go defaults to &#8220;*&#8221;</li>
+<li>jsonp - (optional) Bool that will use JSONP</li>
+</ul>
+
+<pre><code class="javascript">$go.remove({
+  url: 'url',
+  header: 'header',
+  data: 'data',
+  ifMatch: '*' 
+})
+.done(function(data){
+  // Logic goes here
+});
+</code></pre>
+
+<h2 id="extendinggo">Extending $go</h2>
+
+<p>$go was built to be extended. Trying to add every available method or endpoint into the library would not only be time consuming but would bloat the file size. Everyone&#8217;s needs are different so this is meant to be a foundation to build on. There are two methods available that allow you to extend it. The first method is <code>$go.registerPlugin()</code> and the second is <code>$go.addHeaderTemplate()</code>.</p>
+
+<h3 id="go.registerplugin">$go.registerPlugin()</h3>
+
+<pre><code class="javascript">// Build Plugin as Object Literal
+var plugin = {
+  name: 'social',
+  plugin: {
+      methodOne: function(){
+        // Logic Here
+      },
+      methodTwo: function(){
+        // Logic Here
+      }
+  }
+};
+
+// Register Plugin
+$go.registerPlugin(plugin);
+
+// Use Plugin
+$go.social.methodOne();
+</code></pre>
+
+<h3 id="go.addheadertemplate">$go.addHeaderTemplate()</h3>
+
+<p>The second way to extend $go is by expanding the Header Templates. There may be a header you use often or just one that is special enough to be added. To do this use the <code>$go.addHeaderTemplate()</code> method. DO NOT alter the built-in header templates. This could break other built-in methods. Instead create a new template and extend the library.</p>
+
+<pre><code class="javascript">// Build Plugin as Object Literal
+var header = {
+  name: 'custom',
+  header: {
+    'X-RequestDigest': $('#__REQUESTDIGEST').val(),
+    'accept': 'application/json; odata=verbose',
+    'content-type': 'application/json; odata=verbose',
+    'specialValue': 'value'
+  }
+};
+
+// Register Header Template
+$go.addHeaderTemplate(header);
+
+// Use Custom Header
+$go.post({
+  url: 'url',
+  header: $go.customHeaders.custom,
+  data: 'data'
+});
+
+$go.customHeaders.specialGET;
+</code></pre>
+
+<h1 id="built-inmethodreference">Built-In Method Reference</h1>
+
+<h3 id="listfunctions">List Functions</h3>
+
+<ul>
+<li>getListItem(listName, itemId)</li>
+<li>getListItems(listName)</li>
+<li>createList(params) {}, (params: allowContentTypes, baseTemplate, contentTypesEnabled, description, title)</li>
+<li>addListColumns(params) {}, (params: columns, listName)</li>
+<li>addContentTypetoList(listName, contentTypeID)</li>
+</ul>
+
+<h3 id="sitefunctions">Site Functions</h3>
+
+<ul>
+<li>getCurrentSite()</li>
+<li>createSite(params) {}, (params: url, title, description, language, webTemplate, uniquePermissions)</li>
+<li>getSubSites()</li>
+<li>getParentSite()</li>
+</ul>
+
+<h3 id="userfunctions">User Functions</h3>
+
+<ul>
+<li>getCurrentUser()</li>
+<li>getInfoForUser(userId)</li>
+<li>createGroup(groupName)</li>
+<li>addToGroup(groupId, loginName)</li>
+<li>removeFromGroup(groupId, loginName)</li>
+<li>getUsersForRole(role)</li>
+<li>addRole(obj)</li>
+<li>removeRole(role, loginName)</li>
+</ul>
+
+<h3 id="helperfunctions">Helper Functions</h3>
+
+<ul>
+<li>getBaseUrl()</li>
+<li>isValidJson(jsonObject)</li>
+<li>getRequestDigest()</li>
+<li>sortByKey(key, desc)</li>
+<li>xmlToJson(xmlObject)</li>
+</ul>
+
+</body>
+</html>
