@@ -10,7 +10,7 @@
   var defaultOptions = {
     returnType: 'JSON'
   };
-  var version = '2.3.0';
+  var version = '1.0.2';
   var go;
 
   /*========================
