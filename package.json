@@ -7,5 +7,9 @@
   "repository": "https://github.com/garzasays/go-sp.git",
   "bugs": "https://github.com/garzasays/go-sp.git/issues",
   "author": "Santiago Garza <garzasays@me.com>",
-  "license": "MIT"
+  "license": "MIT",
+
+  "files": [
+    "dist/goSp.js"
+  ]
 }
