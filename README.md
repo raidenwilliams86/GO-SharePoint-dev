@@ -1,11 +1,11 @@
 # $go Library for SharePoint
 
-**$go is a complete rewite of the $sp library. Since this was a major rewrite I am treating this as a new library.**
+**$go is a complete rewite of the $go library. Since this was a major rewrite I am treating this as a new library.**
 
 $go is a lightweight SharePoint AJAX library that makes REST calls extremely simple. This library was designed to give developers of any skill level an easy to use tool that simply works.  Most GET requests can be completed by simply providing a URL. Each call returns a promise that allows chaining of callbacks. See examples below.
 
 ```javascript
-$sp.get('<REST ENDPOINT>?<ODATA OPERATORS>')
+$go.get('<REST ENDPOINT>?<ODATA OPERATORS>')
 .done(function(data){
    // Logic goes here
 })
@@ -14,7 +14,7 @@ $sp.get('<REST ENDPOINT>?<ODATA OPERATORS>')
 });
 
 // or using a built-in method you could do this
-$sp.getCurrentSite()
+$go.getCurrentSite()
 .done(function(data){
    // Logic goes here
 })
