@@ -26,6 +26,21 @@ $sp.getCurrentSite()
 
 The beauty of this library is in it's simplicity. No more memorizing headers or other metdata, simply provide a url and get data back. Need to save something to a list? Provide $go a url and pass in the properly formatted data object and...done. Try it out!!
 
+
+# Installation
+Super easy stuff. I want to add this library to npm/bower for the simple purpose of making this more accessible to everyone, but that is for another day. 
+
+#### Production
+1. Copy goSp.js from the /dist folder. 
+2. Add reference to goSp.js to desired page (Adding to Master Page is recommended)
+3. Go nuts!
+
+#### Development
+1. Copy goSp.js from the /src folder. 
+2. Add reference to goSp.js to desired page (Adding to Master Page is recommended)
+3. Go nuts! 
+
+
 # Documentation
 See the full documentation [here.](/docs/Getting_Started.md)
 
