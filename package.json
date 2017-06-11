@@ -13,6 +13,10 @@
   "author": "Santiago Garza <garzasays@me.com>",
   "license": "MIT",
   "files": [
-    "dist/goSp.js"
-  ]
+    "dist/goSp.js",
+    "docs/"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.4"
+  }
 }

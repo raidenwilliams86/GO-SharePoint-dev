@@ -28,7 +28,17 @@ The beauty of this library is in it's simplicity. No more memorizing headers or 
 
 
 # Installation
-Super easy stuff. I want to add this library to npm/bower for the simple purpose of making this more accessible to everyone, but that is for another day. 
+Super easy stuff. Use npm or yarn.
+
+```
+npm install go-sp
+
+or
+
+yarn add go-sp
+```
+
+Or... Traditional Download, cuz that's cool too.
 
 #### Production
 1. Copy goSp.js from the /dist folder. 
@@ -42,7 +52,7 @@ Super easy stuff. I want to add this library to npm/bower for the simple purpose
 
 
 # Documentation
-See the full documentation [here.](/docs/Getting_Started.md)
+See the full documentation [here.](https://github.com/garzasays/GO-SharePoint/blob/master/docs/Getting_Started.md)
 
 
 # Licenses
