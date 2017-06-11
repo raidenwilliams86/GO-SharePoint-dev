@@ -1,14 +1,17 @@
 {
   "name": "go-sp",
-  "version": "1.0.0",
-  "keywords": ["SharePoint", "AJAX", "REST"],
+  "version": "1.0.1",
+  "keywords": [
+    "SharePoint",
+    "AJAX",
+    "REST"
+  ],
   "description": "$go is a lightweight SharePoint AJAX library that makes REST calls extremely simple",
   "main": "index.js",
   "repository": "https://github.com/garzasays/go-sp.git",
   "bugs": "https://github.com/garzasays/go-sp.git/issues",
   "author": "Santiago Garza <garzasays@me.com>",
   "license": "MIT",
-
   "files": [
     "dist/goSp.js"
   ]
