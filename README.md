@@ -1,6 +1,6 @@
 # $go Library for SharePoint
 
-## DEPRECATED
+### DEPRECATED
 This is here for archive purposes only. It relies on vulnearble dependencies, but the core could be repurposed for those who still need to work in SharePoint 2013. 
 
 **$go is a complete rewite of the $go library. Since this was a major rewrite I am treating this as a new library.**
